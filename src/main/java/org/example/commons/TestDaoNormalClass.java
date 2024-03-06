@@ -1,20 +1,20 @@
 package org.example.commons;
 
-import static org.example.commons.DBConnection.Get_JDBC_Connection;
+import static org.example.commons.DbConnection.getJdbcConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TestDao {
+public class TestDaoNormalClass {
 
-    Connection connection = Get_JDBC_Connection();
+    Connection CONNECTION = getJdbcConnection();
 
 
     // Insert a new record
-    public void InsertRecord(String name, String email) throws SQLException {
+    public void insertRecord(String name, String email) throws SQLException {
         String insertQuery = "INSERT INTO user (name, email) VALUES (?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(insertQuery)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.executeUpdate();
@@ -22,9 +22,9 @@ public class TestDao {
     }
 
     // Retrieve records
-    public void GetAllRecords() throws SQLException {
+    public void getAllRecords() throws SQLException {
         String selectQuery = "SELECT * FROM user";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(selectQuery);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -36,9 +36,9 @@ public class TestDao {
     }
 
     // Update a record
-    public void UpdateRecord(int userId, String newName) throws SQLException {
+    public void updateRecord(int userId, String newName) throws SQLException {
         String updateQuery = "UPDATE user SET name = ? WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, newName);
             preparedStatement.setInt(2, userId);
             preparedStatement.executeUpdate();
@@ -46,9 +46,9 @@ public class TestDao {
     }
 
     // Delete a record
-    public void DeleteRecord(int userId) throws SQLException {
+    public void deleteRecord(int userId) throws SQLException {
         String deleteQuery = "DELETE FROM user WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(deleteQuery)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.executeUpdate();
         }

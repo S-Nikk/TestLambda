@@ -2,7 +2,7 @@ package org.example;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import static org.example.commons.CustomSSMClient.GetSingleParam;
+import static org.example.commons.CustomSSMClient.getSingleParam;
 
 public class TestLambda implements RequestHandler<Object, String> {
 
@@ -12,7 +12,7 @@ public class TestLambda implements RequestHandler<Object, String> {
 
     @Override
     public String handleRequest(Object input, Context context) {
-        ParamName = GetSingleParam("ENV");
+        ParamName = getSingleParam("ENV");
         System.out.println(ParamName);
         return ParamName;
     }

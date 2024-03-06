@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.ssm.model.*;
 import software.amazon.awssdk.services.ssm.model.Parameter;
 
 public class CustomSSMClient {
-    public static String GetSingleParam(String ParamName) {
+    public static String getSingleParam(String ParamName) {
         // Set the AWS region where your SSM parameter is stored
         String parameterValue = null;
         Region region = Region.EU_NORTH_1;
@@ -38,7 +38,7 @@ public class CustomSSMClient {
             ssmClient.close();
         }
         return parameterValue;}
-    public static List<String> GetMultiParam(List<String> ParamNames) {
+    public static List<String> getMultiParam(List<String> ParamNames) {
 
         String parameterValue = null;
         Region region = Region.EU_NORTH_1;

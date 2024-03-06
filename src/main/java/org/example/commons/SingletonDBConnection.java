@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 public class SingletonDBConnection {
 
     private static SingletonDBConnection instance; // Singleton instance
-    private Connection connection;
+    private Connection CONNECTION;
 
     private SingletonDBConnection() {
         initializeConnection();
@@ -19,16 +19,16 @@ public class SingletonDBConnection {
     }
 
     private void initializeConnection() {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/testdata?useSSL=false";
-        String username = "root";
-        String password = "swampfire$12";
+        String dbUrl = "jdbc:mysql://localhost:3306/testdata?useSSL=false";
+        String userName = "root";
+        String userPswrd = "swampfire$12";
 
         try {
             // Load the MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Establish the connection
-            connection = DriverManager.getConnection(jdbcUrl, username, password);
+            CONNECTION = DriverManager.getConnection(dbUrl, userName, userPswrd);
             System.out.println("Connection Successfully established");
         } catch (Exception e) {
             System.out.println("Error establishing the connection: " + e.getMessage());
@@ -36,7 +36,7 @@ public class SingletonDBConnection {
     }
 
     public Connection getConnection() {
-        return connection;
+        return CONNECTION;
     }
 
 }
