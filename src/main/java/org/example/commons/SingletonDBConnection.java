@@ -1,15 +1,14 @@
 package org.example.commons;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class SingletonDBConnection {
 
     private static SingletonDBConnection instance; // Singleton instance
-    private Connection CONNECTION;
+    private Connection CONNECTION=null;
 
-    private SingletonDBConnection() {
-        initializeConnection();
-    }
+    private SingletonDBConnection() {}
 
     public static SingletonDBConnection getInstance() {
         if (instance == null) {
@@ -34,8 +33,13 @@ public class SingletonDBConnection {
             System.out.println("Error establishing the connection: " + e.getMessage());
         }
     }
-
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+        if(CONNECTION==null){
+            initializeConnection();
+        }
+        if (CONNECTION.isValid(5)){
+            initializeConnection();
+        }
         return CONNECTION;
     }
 

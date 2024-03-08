@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class TestDaoSingletonClass {
     public static Connection CONNECTION;
-    public TestDaoSingletonClass() {
+    public TestDaoSingletonClass() throws SQLException {
         // Get the singleton connection instance
         CONNECTION = SingletonDBConnection.getInstance().getConnection();
     }
@@ -37,7 +37,7 @@ public class TestDaoSingletonClass {
 
     // Update a record
     public void updateRecord(int userId, String newName) throws SQLException {
-        String updateQuery = "UPDATE user SET name = ? WHERE id = ?";
+        String updateQuery = "UPDATE user SET name = ? WHERE username = ?";
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, newName);
             preparedStatement.setInt(2, userId);
