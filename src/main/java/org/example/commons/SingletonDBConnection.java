@@ -37,7 +37,7 @@ public class SingletonDBConnection {
         if(CONNECTION==null){
             initializeConnection();
         }
-        if (CONNECTION.isValid(5)){
+        if (!CONNECTION.isValid(5)){
             initializeConnection();
         }
         return CONNECTION;
