@@ -60,7 +60,7 @@ public class MenuDrivenApp {
                     System.out.println("Exiting the application. Goodbye!");
                     System.exit(0);
             }
-            Thread.sleep(15000);
+            Thread.sleep(30000);
         }
     }
 }

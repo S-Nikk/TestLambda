@@ -19,7 +19,7 @@ public class SingletonDBConnection {
 
     private void initializeConnection() {
         String dbUrl = "jdbc:mysql://localhost:3306/testdata?useSSL=false";
-        String userName = "root";
+        String userName = "sagnik";
         String userPswrd = "swampfire$12";
 
         try {
@@ -37,7 +37,7 @@ public class SingletonDBConnection {
         if(CONNECTION==null){
             initializeConnection();
         }
-        if (!CONNECTION.isValid(5)){
+        if (!CONNECTION.isValid(0)){
             initializeConnection();
         }
         return CONNECTION;
