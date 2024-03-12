@@ -60,6 +60,35 @@ public class S3BucketConnectionV2 {
                         }
                     }
                 });
+ import software.amazon.awssdk.services.s3.S3AsyncClient;
+ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+ import software.amazon.awssdk.core.async.AsyncResponseTransformer;
+
+ public class S3ObjectReader {
+
+ public static void readS3Object(String bucketName, String key) {
+ S3AsyncClient s3AsyncClient = S3AsyncClient.builder().build();
+
+ try {
+ ResponseInputStream<GetObjectResponse> objectData = s3AsyncClient.getObject(
+ GetObjectRequest.builder()
+ .bucket(bucketName)
+ .key(key)
+ .build(),
+ AsyncResponseTransformer.toInputStream());
+
+ try (BufferedReader reader = new BufferedReader(new InputStreamReader(objectData))) {
+ String line;
+ while ((line = reader.readLine()) != null) {
+ System.out.println(line);
+ }
+ }
+ } catch (IOException e) {
+ // Handle any exceptions related to reading the object data
+ e.printStackTrace();
+ }
+ }
     }
 }**/
 
