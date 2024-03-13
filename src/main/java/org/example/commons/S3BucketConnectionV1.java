@@ -4,6 +4,7 @@ package org.example.commons;
 //version 1 imports
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
@@ -22,7 +23,7 @@ public class S3BucketConnectionV1 {
 
 
             // Initialize the S3 client
-            AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
+            AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
 
             // Get the S3 object
             S3Object object = s3Client.getObject(new GetObjectRequest(bucketName, key));
