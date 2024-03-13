@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ public class S3BucketConnectionV1 {
         public static void main(String[] args) throws IOException {
             String bucketName = "lambdaartifact";
             String key = "Text.txt";
+
 
             // Initialize the S3 client
             AmazonS3 s3Client = new AmazonS3Client(new ProfileCredentialsProvider());
