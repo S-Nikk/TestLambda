@@ -46,6 +46,8 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.CopyObjectRequest;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,8 +68,7 @@ public class S3WrapperV1 {
     public List<S3ObjectSummary> listObjects(String bucketName) {
         createS3Client();
         ObjectListing objectListing = s3Client.listObjects(bucketName);
-        List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
-        return objectSummaries;
+        return objectListing.getObjectSummaries();
     }
 
     public S3Object getObject(String bucketName, String key) {
@@ -85,5 +86,13 @@ public class S3WrapperV1 {
             throw new RuntimeException(e);
         }
         return object;
+    }
+    public static void copyObject(AmazonS3 s3Client, String srcBucket, String srcKey, String destBucket, String destKey) {
+        CopyObjectRequest copyObjRequest = new CopyObjectRequest(srcBucket, srcKey, destBucket, destKey);
+        s3Client.copyObject(copyObjRequest);
+    }
+    public static void deleteObject(AmazonS3 s3Client, String bucketName, String objectKey) {
+        DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, objectKey);
+        s3Client.deleteObject(deleteObjectRequest);
     }
 }

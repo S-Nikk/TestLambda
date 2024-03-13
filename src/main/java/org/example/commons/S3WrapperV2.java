@@ -36,10 +36,10 @@ public class S3BucketConnectionV2 {
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.*;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import java.util.List;
 
 public class S3WrapperV2 {
@@ -74,5 +74,23 @@ public class S3WrapperV2 {
         System.out.println(objectContent);
         return responseBytes.response();
 
+    }
+    public void copyObject(String accessKey, String secretKey, String region, String srcBucket, String srcKey, String destBucket, String destKey) {
+        createS3Client();
+        CopyObjectRequest copyObjRequest = CopyObjectRequest.builder()
+                .sourceBucket(srcBucket)
+                .sourceKey(srcKey)
+                .destinationBucket(destBucket)
+                .destinationKey(destKey)
+                .build();
+        s3Client.copyObject(copyObjRequest);
+    }
+    public void deleteObject(String accessKey, String secretKey, String region, String bucketName, String objectKey) {
+        createS3Client();
+        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(objectKey)
+                .build();
+        s3Client.deleteObject(deleteObjectRequest);
     }
 }
