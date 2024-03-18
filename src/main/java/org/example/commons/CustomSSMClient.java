@@ -6,11 +6,11 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.*;
 import software.amazon.awssdk.services.ssm.model.Parameter;
-import software.amazon.awssdk.services.ssm.model.
+
 
 public class CustomSSMClient {
 
-    private static SsmClient ssmClient=null;
+    public static SsmClient ssmClient=null;
     private static void getClient(){
 
         Region region = Region.EU_NORTH_1;
