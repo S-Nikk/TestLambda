@@ -11,14 +11,13 @@ import software.amazon.awssdk.services.ssm.model.Parameter;
 public class CustomSSMClient {
 
     public static SsmClient ssmClient=null;
-    private static void getClient(){
-
-        Region region = Region.EU_NORTH_1;
-
-        // Create an SSM client
-        SsmClient ssmClient = SsmClient.builder()
-                .region(region)
-                .build();
+    private static void getClient() {
+        if (ssmClient == null) {
+            Region region = Region.EU_NORTH_1;
+            ssmClient = SsmClient.builder()
+                    .region(region)
+                    .build();
+        }
     }
     public static String getSingleParam(String ParamName) {
         // Set the AWS region where your SSM parameter is stored
