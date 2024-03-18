@@ -6,18 +6,24 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.*;
 import software.amazon.awssdk.services.ssm.model.Parameter;
+import software.amazon.awssdk.services.ssm.model.
 
 public class CustomSSMClient {
-    public static String getSingleParam(String ParamName) {
-        // Set the AWS region where your SSM parameter is stored
-        String parameterValue = null;
+
+    private static SsmClient ssmClient=null;
+    private static void getClient(){
+
         Region region = Region.EU_NORTH_1;
 
         // Create an SSM client
         SsmClient ssmClient = SsmClient.builder()
                 .region(region)
                 .build();
-
+    }
+    public static String getSingleParam(String ParamName) {
+        // Set the AWS region where your SSM parameter is stored
+        getClient();
+        String parameterValue = null;
         try {
             // Specify the parameter name
             GetParameterRequest parameterRequest = GetParameterRequest.builder()
@@ -37,16 +43,12 @@ public class CustomSSMClient {
             // Close the SSM client
             ssmClient.close();
         }
-        return parameterValue;}
-    public static List<String> getMultiParam(List<String> ParamNames) {
+        return parameterValue;
+    }
+    public static Map<String, String> getMultiParam(List<String> ParamNames) {
 
         String parameterValue = null;
-        Region region = Region.EU_NORTH_1;
-
-        // Create an SSM client
-        SsmClient ssmClient = SsmClient.builder()
-                .region(region)
-                .build();
+        getClient();
 
         try {
             GetParametersRequest parametersRequest = GetParametersRequest.builder()
@@ -59,17 +61,18 @@ public class CustomSSMClient {
             List<Parameter> parameterList = parametersResponse.parameters();
 
             // Process the parameter values as needed
-            List<String> parameterValues = new ArrayList<>();
-            for (Parameter parameter : parameterList) {
-                String ParamType = String.valueOf(parameter.type());
-                if ("String".equals(ParamType) || "StringList".equals(ParamType)) {
-                    parameterValues.add(parameter.value());
-                } else if ("SecureString".equals(ParamType)) {
-                    // Retrieve the secure parameter value
-                    parameterValues.add(parameter.value());
-                }
 
-                return parameterValues;
+            Map<String, String> parameterValues = new HashMap<>();
+            for (Parameter parameter : parameterList) {
+                String paramType = String.valueOf(parameter.type());
+                if ("String".equals(paramType) || "StringList".equals(paramType)) {
+                    parameterValues.put(parameter.name(), parameter.value());
+                } else if ("SecureString".equals(paramType)) {
+                    // Retrieve the secure parameter value
+
+                    parameterValues.put(parameter.name(), parameter.value());
+                }
+            return parameterValues;
             }
         } catch (Exception e) {
             // Handle any exceptions (e.g., parameter not found, permission issues)
@@ -81,7 +84,7 @@ public class CustomSSMClient {
             ssmClient.close();
 
         }
-        return ParamNames;
+        return null;
     }
 }
 

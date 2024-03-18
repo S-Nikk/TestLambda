@@ -52,13 +52,12 @@ public class S3WrapperV2 {
                 .build();
     }
 
-    public List<software.amazon.awssdk.services.s3.model.S3Object> listObjects(String bucketName) {
+    public ListObjectsV2Response listObjects(String bucketName) {
         createS3Client();
         ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder()
                 .bucket(bucketName)
                 .build();
-        ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(listObjectsV2Request);
-        return listObjectsV2Response.contents();
+        return s3Client.listObjectsV2(listObjectsV2Request);
     }
 
     public GetObjectResponse getObject(String bucketName, String key) {
@@ -93,4 +92,6 @@ public class S3WrapperV2 {
                 .build();
         s3Client.deleteObject(deleteObjectRequest);
     }
+
+
 }
